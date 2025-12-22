@@ -411,6 +411,29 @@ function switchCamera() {
     if(stream) cancelCamera();
     openCamera();
 }
+function sendImage() {
+    const trackCode = document.getElementById('track-code').value.trim();
+    if (!trackCode) return alert('Enter tracking code!');
+
+    const input = document.getElementById('image-input');
+    const file = input.files[0];
+    if (!file) return alert('Select an image first!');
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const timestamp = new Date().toLocaleTimeString();
+
+        db.ref('chats/' + trackCode).push({
+            sender: 'Admin',
+            image: e.target.result,
+            timestamp
+        });
+
+        input.value = ''; // reset input
+    };
+    reader.readAsDataURL(file);
+}
+
 </script>
 
 </head>
@@ -447,6 +470,8 @@ function switchCamera() {
 <div class="input-row">
 <button onclick="openCamera()">📸 Open Camera</button>
 <button onclick="takeSnapshot()">📷 Snap Picture</button>
+<input type="file" accept="image/*" id="image-input" style="display:none;" onchange="sendImage(event)">
+<button onclick="document.getElementById('image-input').click()">📷 Send Picture</button>
 </div>
 
 <div class="camera-wrapper" id="camera-wrapper">
@@ -458,3 +483,4 @@ function switchCamera() {
 </div>
 </body>
 </html>
+
