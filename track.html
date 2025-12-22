@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Track Shipment | Express Expert Delivery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <style>
+    :root {
+      --primary: #c62828;   /* Deep Red */
+      --light: #ffffff;     /* White */
+      --dark: #1a1a1a;
+    }
+  
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(rgba(198,40,40,.85), rgba(198,40,40,.85)),
+        url('Freight-forwarder.jpeg') center/cover;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+  
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  
+    /* HEADER */
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 16px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+    }
+  
+    header nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+    }
+  
+    header nav a:hover {
+      color: #ffee00;
+    }
+  
+    /* LAYOUT */
+    .container {
+      display: flex;
+      justify-content: center;
+      padding: 70px 20px;
+    }
+  
+    .card {
+      background: white;
+      max-width: 600px;
+      width: 100%;
+      padding: 40px;
+      border-radius: 22px;
+      box-shadow: 0 25px 60px rgba(0,0,0,.18);
+    }
+  
+    h2 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+  
+    input, button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 14px;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+  
+    input {
+      border: 1px solid #ccc;
+    }
+  
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+  
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  
+    button:hover {
+      background: #a61b1b;
+    }
+  
+    /* RECEIPT */
+    #result {
+      margin-top: 25px;
+    }
+  
+    .receipt {
+      background: #fff5f5;
+      padding: 22px;
+      border-radius: 16px;
+      border-left: 5px solid var(--primary);
+    }
+  
+    .receipt h3 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+  
+    /* MAP */
+    #map {
+  height: 300px;
+  border-radius: 16px;
+  margin-top: 20px;
+  display: none;
+}
+
+  
+    /* SUPPORT */
+    .support {
+      margin-top: 25px;
+      padding: 22px;
+      border-radius: 16px;
+      background: var(--primary);
+      color: white;
+      display: none;
+    }
+  
+    .support h4 {
+      margin-bottom: 10px;
+    }
+  
+    .support a {
+      color: #ffeaea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  
+    footer {
+      text-align: center;
+      color: white;
+      padding: 20px;
+      font-size: 14px;
+    }
+  
+    @media (max-width: 768px) {
+      .card {
+        padding: 30px;
+      }
+    }
+
+/* CHRISTMAS WISHES */
+.christmas-wishes {
+  margin-top: 50px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #c62828, #8e0000);
+  border-radius: 20px;
+  color: #fff;
+  text-align: center;
+  perspective: 1200px;
+  animation: fadeInUp 1.2s ease;
+}
+
+.christmas-wishes h2 {
+  font-size: 26px;
+  margin-bottom: 30px;
+  font-weight: 700;
+  color: #f1e977;
+}
+
+/* 3D ROTATION WRAPPER */
+.wishes-3d {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  perspective: 1000px;
+}
+
+.wish-rotate {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  transform-style: preserve-3d;
+  animation: rotateRing 18s linear infinite;
+}
+
+/* 3D RING ROTATION */
+@keyframes rotateRing {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+/* WISH CARD */
+.wish-card {
+  position: absolute;
+  width: 220px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 20px;
+  border-radius: 18px;
+  backdrop-filter: blur(6px);
+  transform-style: preserve-3d;
+
+  /* FACE EACH OTHER */
+  transform:
+    rotateY(calc(var(--i) * 90deg))
+    translateZ(260px);
+
+  transition: transform 0.6s ease, box-shadow 0.4s ease;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+}
+
+/* TEXT */
+.wish-card h3 {
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: #ffe600;
+}
+
+.wish-card p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* HOVER EFFECT */
+.wish-rotate:hover {
+  animation-play-state: paused;
+}
+
+.wish-card:hover {
+  transform:
+    rotateY(calc(var(--i) * 90deg))
+    translateZ(280px)
+    scale(1.05);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .wishes-3d {
+    height: 260px;
+  }
+
+  .wish-rotate {
+    width: 200px;
+    height: 200px;
+  }
+
+  .wish-card {
+    width: 180px;
+    height: 180px;
+    transform:
+      rotateY(calc(var(--i) * 90deg))
+      translateZ(220px);
+  }
+}
+
+/* ❄️ SNOWFALL EFFECT */
+.snow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image:
+    radial-gradient(4px 4px at 20px 30px, white, transparent),
+    radial-gradient(3px 3px at 40px 70px, white, transparent),
+    radial-gradient(2px 2px at 90px 40px, white, transparent),
+    radial-gradient(3px 3px at 130px 80px, white, transparent),
+    radial-gradient(2px 2px at 160px 120px, white, transparent);
+  background-size: 200px 200px;
+  animation: snowfall 5s linear infinite;
+  opacity: 1;
+  z-index: 9999;
+}
+
+/* Snow movement */
+@keyframes snowfall {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 600px;
+  }
+}
+/* TRANSLATE */
+.tor {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      font-size: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 34px; }
+      .tracking input { width: 100%; margin-bottom: 12px; }
+    }
+
+  </style>
+  
+</head>
+
+<body>
+    <div class="snow"></div>
+
+<header>
+    <div class="logo">Fast Express Delivery</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="track.html">Track Package</a>
+    <a href="sender.html">Customer care</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h2>Track Your Shipment</h2>
+
+    <input id="code" placeholder="Enter Tracking Code">
+    <button onclick="track()">Track Package</button>
+
+    <div id="result"></div>
+    <div id="map"></div>
+    <a href="sender.html">Customer care</a>
+    
+    
+  
+  </div>
+</div>
+<div class="christmas-wishes">
+    <h2> Christmas Wishes from Fast Express Delivery</h2>
+  
+    <div class="wishes-3d">
+      <div class="wish-rotate">
+  
+        <div class="wish-card" style="--i:0">
+          <h3>Merry Christmas</h3>
+          <p>Wishing you peace, joy, and love this festive season.</p>
+        </div>
+  
+        <div class="wish-card" style="--i:1">
+          <h3>Thank You</h3>
+          <p>Thank you for trusting Fast Express Delivery Service.</p>
+        </div>
+  
+        <div class="wish-card" style="--i:2">
+          <h3>Reliable Service</h3>
+          <p>We remain committed to safe and timely deliveries.</p>
+        </div>
+  
+        <div class="wish-card" style="--i:3">
+          <h3>Happy New Year</h3>
+          <p>May the coming year bring success and happiness.</p>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  </section>
+  
+<footer>
+    <p>© 2025 Fast Express Delivery Service. Speed You Can Trust.</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDsadz8GfNMOGaoHbzi7vB2LyvGb-ESxqs",
+    authDomain: "musicdatabase-c57f8.firebaseapp.com",
+    databaseURL: "https://musicdatabase-c57f8-default-rtdb.firebaseio.com",
+    projectId: "musicdatabase-c57f8"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  function track() {
+  const code = document.getElementById("code").value.trim();
+  const result = document.getElementById("result");
+  const mapDiv = document.getElementById("map");
+  const support = document.getElementById("support");
+
+  if (!code) {
+    result.innerHTML = "<p style='color:red'>Please enter a tracking code</p>";
+    mapDiv.style.display = "none";
+    support.style.display = "none";
+    return;
+  }
+
+  db.ref("packages/" + code).once("value").then(snapshot => {
+    if (!snapshot.exists()) {
+      result.innerHTML = "<p style='color:red'>Tracking code not found</p>";
+      mapDiv.style.display = "none";
+      support.style.display = "none";
+      return;
+    }
+
+    const d = snapshot.val();
+
+    result.innerHTML = `
+      <div class="receipt">
+        <h3>📦 Shipment Details</h3>
+        <h3><strong>Welcome:</strong> ${d.receiver}</h3>
+        <p><strong>Status:</strong> ${d.status}</p>
+        <p><strong>Sender:</strong> ${d.sender}</p>
+        <p><strong>Receiver:</strong> ${d.receiver}</p>
+        <p><strong>Current Location:</strong> ${d.location}</p>
+        <p><strong>Country:</strong> ${d.country}</p>
+        <p><strong>Weight:</strong> ${d.weight} kg</p>
+        <p><strong>Delivery Fee and Cleareancers fee:</strong> $${d.fee}</p>
+      </div>
+    `;
+
+    mapBox.style.display = 'block';
+mapBox.innerHTML = '';
+
+const map = L.map('map').setView([14.3194, -87.6840], 7); // La Paz, Honduras
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+L.marker([14.3194, -87.6840]).addTo(map)
+  .bindPopup(d.location)
+  .openPopup();
+
+    });
+  }
+
+</script>
+<div id="google_translate_element" class="tor"></div>
+
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+  }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

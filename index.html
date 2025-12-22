@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Fast Express Delivery Service</title>
+  <meta name="description" content="Fast Express Delivery Service offers fast, secure, and reliable logistics solutions worldwide. Track shipments in real time and enjoy professional delivery services built on speed and trust.">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #c62828;     /* Red */
+      --secondary: #8e0000;   /* Deep Red */
+      --accent: #ffffff;     /* White */
+      --light: #f7f7f7;
+      --dark: #1b1b1b;
+      --gray: #666;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+  background: var(--light);
+  color: var(--dark);
+  line-height: 1.6;
+
+  /* Fade-in animation */
+  opacity: 0;
+  animation: bodyFadeIn 1.2s ease-in-out forwards;
+}
+@keyframes bodyFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+    /* HEADER */
+    header {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 16px 8%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      opacity: 0.8;
+    }
+
+    /* HERO */
+    .hero {
+      background:
+        linear-gradient(rgba(198,40,40,0.85), rgba(142,0,0,0.85)),
+        url('delivery-service-appdelivery365.jpg') center/cover;
+      color: #fff;
+      text-align: center;
+      padding: 110px 8%;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 35px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-btn {
+      background: #fff;
+      color: var(--primary);
+      padding: 14px 34px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .cta-btn:hover {
+      background: #ffecec;
+    }
+
+    /* TRACKING */
+    .tracking {
+      background: #fff;
+      margin: -60px auto 70px;
+      padding: 35px;
+      max-width: 720px;
+      text-align: center;
+      border-radius: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    }
+
+    .tracking h2 {
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+
+    .tracking input {
+      width: 65%;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+      outline: none;
+    }
+
+    .tracking button {
+      padding: 14px 26px;
+      border: none;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .tracking button:hover {
+      background: var(--secondary);
+    }
+
+    /* CONTENT */
+    .content {
+      padding: 70px 8%;
+      background: #fff;
+    }
+
+    .content h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 34px;
+    }
+
+    .content p {
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+      color: var(--gray);
+    }
+
+    /* 3D FEATURES ROTATION – SMALLER */
+.features-3d {
+  position: relative;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 900px;
+  margin-top: 60px;
+}
+
+.carousel {
+  width: 240px;
+  height: 280px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotate360 20s linear infinite;
+}
+
+@keyframes rotate360 {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
+.feature-card {
+  position: absolute;
+  width: 220px;
+  height: 260px;
+  background: rgba(0, 0, 0, 0.26);
+  border-radius: 14px;
+  overflow: hidden;
+  transform:
+    rotateY(calc(var(--i) * 60deg))
+    translateZ(300px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+}
+
+/* IMAGE */
+.feature-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+/* TEXT AREA */
+.feature-text {
+  background: rgb(150, 0, 0);
+  padding: 11px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  height: 110px;
+}
+
+.feature-text h3 {
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+
+.feature-text p {
+  font-size: 13px;
+  line-height: 1.4;
+  opacity: 1;
+  color: yellow;
+}
+
+/* PAUSE ON HOVER */
+.carousel:hover {
+  animation-play-state: paused;
+}
+
+/* MOBILE FIX */
+@media (max-width: 768px) {
+  .features-3d {
+    height: 280px;
+  }
+
+  .carousel {
+    width: 200px;
+    height: 240px;
+  }
+
+  .feature-card {
+    width: 190px;
+    height: 230px;
+    transform:
+      rotateY(calc(var(--i) * 60deg))
+      translateZ(230px);
+  }
+
+  .feature-card img {
+    height: 130px;
+  }
+}
+
+  /* IMAGES SECTION */
+.images {
+  padding: 70px 8%;
+  text-align: center;
+  overflow: hidden;
+  
+}
+
+.images h2 {
+  margin-bottom: 10px;
+  color: #fff59d;
+}
+
+/* SLIDER */
+.image-slider {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* IMAGES */
+.image-slider img {
+  width: 280px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+  opacity: 0.6;
+  transform: scale(0.85);
+  animation: focusSlide 9s infinite;
+}
+
+/* CENTER IMAGE */
+.image-slider img:nth-child(1) {
+  animation-delay: 0s;
+}
+.image-slider img:nth-child(2) {
+  animation-delay: 3s;
+}
+.image-slider img:nth-child(3) {
+  animation-delay: 6s;
+}
+
+/* ANIMATION */
+@keyframes focusSlide {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.6;
+    z-index: 1;
+  }
+  10% {
+    transform: scale(1.05);
+    opacity: 1;
+    z-index: 3;
+  }
+  30% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(0.85);
+    opacity: 0.6;
+    z-index: 1;
+  }
+  100% {
+    transform: scale(0.85);
+    opacity: 0.6;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .image-slider {
+    flex-direction: column;
+  }
+
+  .image-slider img {
+    width: 90%;
+    height: 180px;
+  }
+}
+
+    /* VIDEO */
+    .video-container {
+      padding: 70px 8%;
+      text-align: center;
+      background: #fff;
+    }
+
+    video {
+      width: 85%;
+      max-width: 900px;
+      border-radius: 18px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      color: #fff;
+      text-align: center;
+      padding: 22px;
+      margin-top: 50px;
+      font-size: 14px;
+    }
+
+    /* TRANSLATE */
+    .tor {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      font-size: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 34px; }
+      .tracking input { width: 100%; margin-bottom: 12px; }
+    }
+/* ❄️ SNOW WITH WIND + GLOW */
+.snow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image:
+    radial-gradient(3px 3px at 20px 30px, white, transparent),
+    radial-gradient(2px 2px at 80px 90px, white, transparent),
+    radial-gradient(3px 3px at 140px 60px, white, transparent),
+    radial-gradient(2px 2px at 200px 120px, white, transparent),
+    radial-gradient(3px 3px at 260px 40px, white, transparent);
+  background-size: 300px 300px;
+  animation: snowFall 8s linear infinite;
+  filter: drop-shadow(0 0 6px white);
+}
+
+@keyframes snowFall {
+  0% {
+    background-position: 0 -300px;
+    transform: translateX(0);
+    filter: brightness(2);
+  }
+  50% {
+    transform: translateX(25px);
+  }
+  100% {
+    background-position: 120px 900px;
+    transform: translateX(-30px);
+    filter: brightness(1) hue-rotate(-15deg);
+  }
+}
+
+.christmas-wishes {
+  margin: 70px auto;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #c62828, #8e0000);
+  border-radius: 24px;
+  max-width: 900px;
+  color: #fff;
+  text-align: center;
+}
+
+.christmas-wishes h2 {
+  margin-bottom: 40px;
+  font-size: 28px;
+}
+
+/* 3D wrapper */
+.carousel, .features-3d {
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  animation: rotate360 18s linear infinite;
+}
+
+@keyframes rotate360 {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
+/* WISH CARD */
+.wish-card {
+  position: absolute;
+  width: 230px;
+  height: 200px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 18px;
+  padding: 20px;
+  backdrop-filter: blur(8px);
+  transform: rotateY(calc(var(--i) * 90deg)) translateZ(150px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  transition: transform .5s ease, box-shadow .4s ease;
+}
+
+.wish-card h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #ffeaea;
+}
+
+.wish-card p {
+  font-size: 14px;
+  color: #ffeaea;
+  line-height: 1.4;
+}
+
+/* Hover effect */
+.carousel:hover, .features-3d:hover {
+  animation-play-state: paused; /* pause rotation */
+}
+.wish-card:hover {
+  transform: rotateY(calc(var(--i) * 90deg)) translateZ(150px) scale(1.05);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #c62828, #8e0000);
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+.wishes-section {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 40px 20px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+.wishes-section h2 {
+  margin-bottom: 25px;
+  font-size: 28px;
+}
+
+.wish-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.wish-form input,
+.wish-form textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  resize: none;
+}
+
+.wish-form textarea {
+  height: 80px;
+}
+
+.wish-form button {
+  background: #ffeaea;
+  color: #c62828;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.wish-form button:hover {
+  background: #ffcccc;
+}
+
+.wish-list {
+  max-height: 350px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-right: 5px;
+  margin-bottom: 30px; /* space below the wish list */
+}
+
+.wish-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.wish-list::-webkit-scrollbar-thumb {
+  background: #ffeaea;
+  border-radius: 3px;
+}
+
+
+.wish-card {
+  background: rgba(255,255,255,0.2);
+  padding: 15px 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(6px);
+  text-align: left;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+}
+
+.wish-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.wish-card h4 {
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+
+.wish-card p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+  </style>
+</head>
+
+<body>
+    <div class="snow"></div>
+<header>
+  <div class="logo">Fast Express Delivery</div>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="track.html">Track Package</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Fast. Secure. Reliable.</h1>
+  <p>Your trusted delivery partner for local and international shipments, powered by speed and professionalism.</p>
+  <a href="track.html" class="cta-btn">Track Your Package</a>
+</section>
+
+<section class="tracking">
+  <h2>Track Your Shipment</h2>
+
+ <a href="track.html"><button>Track Now</button></a> 
+</section>
+
+<section class="content">
+  <h1>Why Choose Fast Express Delivery Service?</h1>
+  <p>We combine advanced logistics technology with customer-focused service to ensure every delivery arrives safely and on time.</p>
+
+  <div class="features-3d">
+    <div class="carousel">
+  
+      <div class="feature-card" style="--i:1;">
+        <img src="ai-generated-food-delivery-man-ride-motorcycle-on-the-road-at-night-deliver-parcel-to-customer-at-night-with-light-trail-photo.jpg" alt="">
+        <div class="feature-text">
+          <h3>Lightning-Fast Delivery</h3>
+          <p>Same-day and express shipping options.</p>
+        </div>
+      </div>
+  
+      <div class="feature-card" style="--i:2;">
+        <img src="what-is-delivery-service.jpg" alt="">
+        <div class="feature-text">
+          <h3>Reliable Service</h3>
+          <p>Thousands of successful deliveries worldwide.</p>
+        </div>
+      </div>
+  
+      <div class="feature-card" style="--i:3;">
+        <img src="3d-vector-illustration-render-delivery-600nw-2633278659.webp" alt="">
+        <div class="feature-text">
+          <h3>Live Tracking</h3>
+          <p>Monitor your shipment in real time.</p>
+        </div>
+      </div>
+  
+      <div class="feature-card" style="--i:4;">
+        <img src="rear-view-of-a-male-courier-in-red-uniform-holding-2021-09-03-20-53-03-utc.jpg" alt="">
+        <div class="feature-text">
+          <h3>Secure Handling</h3>
+          <p>Careful packaging and professional handling.</p>
+        </div>
+      </div>
+  
+      <div class="feature-card" style="--i:5;">
+        <img src="11000413.png" alt="">
+        <div class="feature-text">
+          <h3>Affordable Pricing</h3>
+          <p>Transparent and competitive rates.</p>
+        </div>
+      </div>
+  
+      <div class="feature-card" style="--i:6;">
+        <img src="653e21ffebd7182c1f934cd4_7 Tips To Optimize Customer Service In Logistics.jpg" alt="">
+        <div class="feature-text">
+          <h3>24/7 Support</h3>
+          <p>Dedicated support whenever you need us.</p>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+</section>
+
+<div class="images">
+    <h2>Our Delivery Network</h2>
+    <p>From warehouse to doorstep.</p>
+  
+    <div class="image-slider">
+      <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d" alt="">
+      <img src="Freight-forwarder.jpeg" alt="">
+      <img src="door-to-door-delivery-011pxx11.xx11.101215085549.j7a9-nm9f0y7.avif" alt="">
+    </div>
+  </div>
+  
+
+
+
+<!-- 🎄 Christmas Wishes Section -->
+<section class="christmas-wishes">
+  <h2>🎄 Merry Christmas from Fast Express Delivery 🎄</h2>
+
+  <div class="features-3d">
+    <div class="carousel">
+
+      <div class="wish-card" style="--i:0">
+        <h3>🎁 Warm Wishes</h3>
+        <p>May your Christmas be filled with joy, love, and peace.</p>
+      </div>
+
+      <div class="wish-card" style="--i:1">
+        <h3>🚚 Safe Deliveries</h3>
+        <p>We wish you safe journeys and successful deliveries.</p>
+      </div>
+
+      <div class="wish-card" style="--i:2">
+        <h3>✨ New Beginnings</h3>
+        <p>May the New Year bring growth, success, and happiness.</p>
+      </div>
+
+      <div class="wish-card" style="--i:3">
+        <h3>❤️ Thank You</h3>
+        <p>Thank you for trusting Fast Express Delivery.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="wishes-section">
+    <h2>🎄 Share Your Christmas Wishes 🎄</h2>
+  
+    <div class="wish-form">
+      <input type="text" id="userName" placeholder="Your Name">
+      <textarea id="userWish" placeholder="Write your Christmas wish..."></textarea>
+      <button onclick="postWish()">Post Wish</button>
+    </div>
+  
+    <div class="wish-list" id="wishList">
+      <!-- Wishes will appear here -->
+    </div>
+  </section>
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  
+<footer>
+  <p>© 2025 Fast Express Delivery Service. Speed You Can Trust.</p>
+</footer>
+
+<div id="google_translate_element" class="tor"></div>
+
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+  }
+
+  // Firebase config
+  const firebaseConfig = {
+  apiKey: "AIzaSyDsadz8GfNMOGaoHbzi7vB2LyvGb-ESxqs",
+  authDomain: "musicdatabase-c57f8.firebaseapp.com",
+  databaseURL: "https://musicdatabase-c57f8-default-rtdb.firebaseio.com",
+  projectId: "musicdatabase-c57f8",
+  storageBucket: "musicdatabase-c57f8.firebasestorage.app",
+  messagingSenderId: "1081533752772",
+  appId: "1:1081533752772:web:4e43c649e7e0bd7435f091"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const wishesRef = db.ref("christmas_wishes");
+
+// Post a wish
+function postWish() {
+  const name = document.getElementById('userName').value.trim();
+  const wish = document.getElementById('userWish').value.trim();
+  if (!name || !wish) {
+    alert("Please enter both your name and wish!");
+    return;
+  }
+
+  // Push to Firebase
+  const newWish = {
+    name,
+    wish,
+    timestamp: new Date().toISOString()
+  };
+  wishesRef.push(newWish);
+
+  // Clear input fields
+  document.getElementById('userName').value = '';
+  document.getElementById('userWish').value = '';
+}
+
+// Listen for new wishes in real-time
+wishesRef.on("child_added", snapshot => {
+  const data = snapshot.val();
+  const wishList = document.getElementById('wishList');
+
+  const card = document.createElement('div');
+  card.classList.add('wish-card');
+  card.innerHTML = `<h4>${data.name}</h4><p>${data.wish}</p>`;
+
+  wishList.prepend(card); // newest first
+});
+
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

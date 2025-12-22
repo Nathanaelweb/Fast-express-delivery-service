@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | Fast Express Delivery Service</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<style>
+:root {
+  --primary: #c62828;
+  --light: #ffffff;
+  --bg: #f7f7f7;
+  --dark: #1a1a1a;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--dark);
+  animation: fadeIn .8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* HEADER */
+header {
+  background: var(--primary);
+  color: white;
+  padding: 18px 8%;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* LAYOUT */
+.wrapper {
+  padding: 50px 8%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 35px;
+}
+
+.card {
+  background: white;
+  padding: 35px;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.15);
+}
+
+.card h2 {
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+/* FORM */
+label {
+  font-weight: 500;
+  margin-top: 12px;
+  display: block;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+button {
+  margin-top: 18px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #a61b1b;
+}
+
+/* PREVIEW */
+.preview p {
+  margin-bottom: 8px;
+}
+
+.status {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* ALERT SETTINGS */
+.alerts {
+  background: #fff3f3;
+  padding: 18px;
+  border-radius: 14px;
+  margin-top: 20px;
+}
+
+.alerts h4 {
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 15px;
+  background: #111;
+  color: white;
+  margin-top: 40px;
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+.alerts{
+    font-size: 12px;
+    text-align: center;
+    
+}
+ header a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      background-color: #111;
+      padding: 5px 5px;
+    border-radius: 20px;
+    }
+  
+    header a:hover {
+      color: #ffd900;
+    }
+</style>
+</head>
+
+<body>
+
+<header>Fast Express Delivery Service — Admin Panel
+    <a href="admin.html">Customer Chat</a>
+</header>
+
+<section class="wrapper">
+
+<!-- FORM -->
+<div class="card">
+  <h2>Add / Update Shipment</h2>
+
+  <label>Tracking Code</label>
+  <input id="trackCode" placeholder="FED-2025-001">
+
+  <label>Sender Name</label>
+  <input id="sender">
+
+  <label>Receiver Name</label>
+  <input id="receiver">
+
+  <label>Receiver Email</label>
+  <input id="email" placeholder="customer@email.com">
+
+  <label>Receiver Phone</label>
+  <input id="phone" placeholder="+1xxxxxxxxx">
+
+  <label>Destination Country</label>
+  <input id="country">
+
+  <label>Weight (kg)</label>
+  <input id="weight" type="number">
+
+  <label>Delivery Fee ($)</label>
+  <input id="fee" type="number">
+
+  <label>Status</label>
+  <select id="status">
+    <option>Processing</option>
+    <option>Picked Up</option>
+    <option>In Transit</option>
+    <option>Out for Delivery</option>
+    <option>Delivered</option>
+  </select>
+
+  <label>Current Location</label>
+  <input id="location">
+
+  <button onclick="savePackage()">Save & Notify</button>
+  <p id="msg"></p>
+</div>
+
+<!-- PREVIEW -->
+<div class="card preview">
+  <h2>Live Preview</h2>
+
+  <p><strong>Tracking:</strong> <span id="pTrack">-</span></p>
+  <p><strong>Sender:</strong> <span id="pSender">-</span></p>
+  <p><strong>Receiver:</strong> <span id="pReceiver">-</span></p>
+  <p><strong>Status:</strong> <span id="pStatus" class="status">-</span></p>
+  <p><strong>Location:</strong> <span id="pLocation">-</span></p>
+
+  <div class="alerts">
+    <h4>Customer Alerts</h4>
+    <p>✔ Email notification</p>
+    <p>✔ SMS notification</p>
+  </div>
+</div>
+
+</section>
+
+<footer>© 2025 Fast Express Delivery Service</footer>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("DR62eF5v6sl9NIbQZ"); // Replace with your EmailJS User ID
+  })();
+</script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDsadz8GfNMOGaoHbzi7vB2LyvGb-ESxqs",
+  authDomain: "musicdatabase-c57f8.firebaseapp.com",
+  databaseURL: "https://musicdatabase-c57f8-default-rtdb.firebaseio.com",
+  projectId: "musicdatabase-c57f8",
+  storageBucket: "musicdatabase-c57f8.firebasestorage.app",
+  messagingSenderId: "1081533752772",
+  appId: "1:1081533752772:web:4e43c649e7e0bd7435f091"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function savePackage() {
+  const trackCodeEl = document.getElementById('trackCode');
+  const sender = document.getElementById('sender');
+  const receiver = document.getElementById('receiver');
+  const email = document.getElementById('email');
+  const country = document.getElementById('country');
+  const weight = document.getElementById('weight');
+  const fee = document.getElementById('fee');
+  const status = document.getElementById('status');
+  const location = document.getElementById('location');
+  const msg = document.getElementById('msg');
+
+  if (!trackCodeEl.value.trim()) {
+    msg.textContent = "Tracking code required!";
+    msg.style.color = "red";
+    return;
+  }
+
+  const data = {
+    trackCode: trackCodeEl.value.trim(), // add this
+    sender: sender.value,
+    receiver: receiver.value,
+    email: email.value,
+    country: country.value,
+    weight: weight.value,
+    fee: fee.value,
+    status: status.value,
+    location: location.value,
+    updated: new Date().toLocaleString()
+  };
+
+  db.ref("packages/" + trackCodeEl.value.trim()).set(data).then(() => {
+    document.getElementById('pTrack').textContent = data.trackCode;
+    document.getElementById('pSender').textContent = data.sender;
+    document.getElementById('pReceiver').textContent = data.receiver;
+    document.getElementById('pStatus').textContent = data.status;
+    document.getElementById('pLocation').textContent = data.location;
+
+    // send email instead of undefined sendAlerts
+    sendEmail(data);
+
+    msg.textContent = "Shipment saved & customer notified ✔";
+    msg.style.color = "green";
+  }).catch(err => {
+    msg.textContent = "Error: " + err;
+    msg.style.color = "red";
+  });
+}
+
+function sendEmail(data) {
+  const templateParams = {
+    to_name: data.receiver,      // matches {{to_name}}
+    to_email: data.email,        // matches EmailJS 'To Email'
+    email: "noreply@fastexpress.com", // matches Reply-To
+    tracking_code: data.trackCode,    // matches {{tracking_code}}
+    status: data.status,              // matches {{status}}
+    location: data.location,          // matches {{location}}
+    sender: data.sender               // matches {{sender}}
+  };
+
+  emailjs.send("service_7st6tvy", "template_s6wfs6d", templateParams)
+    .then((response) => {
+      console.log("Email sent successfully!", response.status, response.text);
+    }, (error) => {
+      console.error("Email sending failed:", error);
+    });
+}
+
+
+
+
+</script>
+
+</body>
+</html>
