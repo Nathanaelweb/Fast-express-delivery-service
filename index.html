@@ -305,38 +305,7 @@
       .hero h1 { font-size: 34px; }
       .tracking input { width: 100%; margin-bottom: 12px; }
     }
-/* ❄️ SNOW WITH WIND + GLOW */
-.snow {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  background-image:
-    radial-gradient(3px 3px at 20px 30px, white, transparent),
-    radial-gradient(2px 2px at 80px 90px, white, transparent),
-    radial-gradient(3px 3px at 140px 60px, white, transparent),
-    radial-gradient(2px 2px at 200px 120px, white, transparent),
-    radial-gradient(3px 3px at 260px 40px, white, transparent);
-  background-size: 300px 300px;
-  animation: snowFall 8s linear infinite;
-  filter: drop-shadow(0 0 6px white);
-}
 
-@keyframes snowFall {
-  0% {
-    background-position: 0 -300px;
-    transform: translateX(0);
-    filter: brightness(2);
-  }
-  50% {
-    transform: translateX(25px);
-  }
-  100% {
-    background-position: 120px 900px;
-    transform: translateX(-30px);
-    filter: brightness(1) hue-rotate(-15deg);
-  }
-}
 
 .christmas-wishes {
   margin: 70px auto;
@@ -506,13 +475,12 @@ body {
 .wish-card p {
   font-size: 14px;
   line-height: 1.5;
-}
-.circle-wrapper {
+}.circle-wrapper {
   height: 330px;
   display: flex;
   justify-content: center;
   align-items: center;
-  perspective: 1000px;
+  perspective: 800px;
   margin-top: 60px;
 }
 
@@ -522,19 +490,25 @@ body {
   width: 260px;
   height: 260px;
   transform-style: preserve-3d;
-  animation: spinCircle 20s linear infinite;
+  animation: spinCircle 10s ease-in-out infinite;
 }
 
-/* STOP ROTATION ON HOVER */
+/* PAUSE ON HOVER */
 .circle-rotator:hover {
   animation-play-state: paused;
 }
 
-/* ROTATION */
+/* SMALL & SMOOTH ROTATION */
+/* SMOOTH FULL ROTATION */
 @keyframes spinCircle {
-  from { transform: rotateY(0deg); }
-  to   { transform: rotateY(360deg); }
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
 }
+
 
 /* CARD */
 .circle-card {
@@ -544,40 +518,23 @@ body {
   background: rgba(0,0,0,0.25);
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.35);
 
   transform:
     rotateY(calc(var(--i) * 60deg))
-    translateZ(260px);
+    translateZ(160px);
 
-  /* FACE USER */
-  animation: faceUser 20s linear infinite;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-/* FACE FORWARD FIX */
-@keyframes faceUser {
-  from {
-    transform:
-      rotateY(calc(var(--i) * 60deg))
-      translateZ(260px)
-      rotateY(0deg);
-  }
-  to {
-    transform:
-      rotateY(calc(var(--i) * 60deg))
-      translateZ(260px)
-      rotateY(-360deg);
-  }
-}
-
-/* HOVER SCALE */
+/* SOFT HOVER */
 .circle-card:hover {
   transform:
     rotateY(calc(var(--i) * 60deg))
-    translateZ(260px)
-    scale(1.08);
-  box-shadow: 0 14px 40px rgba(255,0,0,0.6);
+    translateZ(180px)
+    scale(1.05);
+
+  box-shadow: 0 14px 32px rgba(255,0,0,0.5);
 }
 
 /* IMAGE */
@@ -605,6 +562,249 @@ body {
   font-size: 12px;
   color: yellow;
 }
+
+.track-info {
+  padding: 30px 10px;
+  background: #ffffff;      /* ✅ white background */
+}
+
+.track-container {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  max-width: 900px;
+  margin: 50px 50px;
+  background: #ffffff;      /* keeps everything clean */
+  padding: 30px;
+  border-radius: 16px;
+}
+
+.track-image img {
+  width: 420px;
+  filter: brightness(1.1);
+  
+}
+
+.track-text {
+  max-width: 500px;
+}
+
+.track-text h2 {
+  color: #b30000;
+  margin-bottom: 12px;
+}
+
+.track-text p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* MOBILE FRIENDLY */
+@media (max-width: 768px) {
+  .track-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .track-image img {
+    width: 100%;
+  }
+}
+.track-container2 {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+
+  /* Remove the auto margins that center it */
+  margin: 70px 70px;   /* top & bottom spacing only */
+
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 16px;
+
+  /* Optional: make it stick closer to left side */
+  justify-content: flex-start;  /* push content to the left */
+}
+
+/* LEFT IMAGE (still visually on the left of text) */
+.track-image2 img {
+  width: 420px;
+  max-width: 100%;
+  filter: brightness(1.1);
+  border-radius: 14px;
+}
+
+/* RIGHT TEXT */
+.track-text2 {
+  max-width: 500px;
+  text-align: left;
+}
+
+.track-text2 h2 {
+  color: #b30000;
+  margin-bottom: 12px;
+}
+
+.track-text2 p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  .track-container2 {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .track-text2 {
+    text-align: center;
+  }
+
+  .track-image2 img {
+    width: 100%;
+  }
+}
+.hero h1 {
+  font-size: 36px;
+}
+
+.hero p {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+/* SECTIONS */
+.section {
+  padding: 50px 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.section h2 {
+  margin-bottom: 15px;
+  color: rgb(255, 238, 0);
+}
+
+.section.gray {
+  background: rgba(247, 2, 2, 0.363);
+}
+
+/* LIST */
+.list {
+  list-style: none;
+}
+
+.list li {
+  padding: 8px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+/* PRICING CARDS */
+.cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+  min-width: 200px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.card strong {
+  display: block;
+  margin-top: 10px;
+  color: darkred;
+  font-size: 18px;
+}
+
+.shipping-section {
+  background: #f5f5f5;
+  padding: 60px 20px;
+}
+
+.shipping-container {
+  max-width: 1000px;
+  margin: auto;
+  background: #fff;
+  padding: 40px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.shipping-container h1 {
+  color: darkred;
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.intro {
+  font-size: 15px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* SERVICES */
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+}
+
+.service-box {
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid darkred;
+}
+
+.service-box h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: darkred;
+}
+
+.service-box p {
+  font-size: 14px;
+  color: #444;
+}
+
+/* BUTTON */
+.learn-more-btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 30px;
+  background: darkred;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.learn-more-btn:hover {
+  background: #a00000;
+  transform: translateY(-3px);
+}
+
 
   </style>
 </head>
@@ -708,49 +908,227 @@ body {
 
 
 
-<!-- 🎄 Christmas Wishes Section -->
-<section class="christmas-wishes">
-  <h2>🎄 Merry Christmas from Fast Express Delivery 🎄</h2>
-
-  <div class="features-3d">
-    <div class="carousel">
-
-      <div class="wish-card" style="--i:0">
-        <h3>🎁 Warm Wishes</h3>
-        <p>May your Christmas be filled with joy, love, and peace.</p>
-      </div>
-
-      <div class="wish-card" style="--i:1">
-        <h3>🚚 Safe Deliveries</h3>
-        <p>We wish you safe journeys and successful deliveries.</p>
-      </div>
-
-      <div class="wish-card" style="--i:2">
-        <h3>✨ New Beginnings</h3>
-        <p>May the New Year bring growth, success, and happiness.</p>
-      </div>
-
-      <div class="wish-card" style="--i:3">
-        <h3>❤️ Thank You</h3>
-        <p>Thank you for trusting Fast Express Delivery.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="wishes-section">
-    <h2>🎄 Share Your Christmas Wishes 🎄</h2>
+  <section class="track-info">
+    <div class="track-container">
   
-    <div class="wish-form">
-      <input type="text" id="userName" placeholder="Your Name">
-      <textarea id="userWish" placeholder="Write your Christmas wish..."></textarea>
-      <button onclick="postWish()">Post Wish</button>
-    </div>
+      <!-- IMAGE SECTION -->
+      <div class="track-image">
+        <img src="FAST EXPRESS  design.png" alt="Track your package worldwide">
+      </div>
   
-    <div class="wish-list" id="wishList">
-      <!-- Wishes will appear here -->
+      <!-- TEXT SECTION -->
+      <div class="track-text">
+        <h2>Track Your Package Worldwide</h2>
+        <p>
+          You can track your package from anywhere around the world using your
+          PC or mobile device, all from the comfort of your home or office.
+          Our advanced tracking system keeps you updated in real time, giving
+          you peace of mind every step of the way.
+        </p>
+      </div>
+  
     </div>
+    
+
+
+  </section>
+  <section class="track-info">
+    <div class="track-container2">
+      <!-- IMAGE SECTION -->
+      <div class="track-image2">
+        <img src="FAST EXPRESS  design 2.png" alt="Fast and safe delivery worldwide">
+      </div>
+  
+      <!-- TEXT SECTION -->
+      <div class="track-text2">
+        <h2>Fast Deliveries, Safe Hands</h2>
+        <p>
+          From pickup to final drop-off, we prioritize 
+          speed, security,and reliability to ensure 
+          your packages arrive safely and on time.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="shipping-section">
+    <div class="shipping-container">
+  
+      <h1>Document and Parcel Shipping</h1>
+      <p class="subtitle">For All Shippers</p>
+  
+      <p class="intro">
+        Learn about DHL Express – the undisputed global leader in international
+        express shipping. We provide fast, reliable, and secure delivery solutions
+        for documents and parcels worldwide.
+      </p>
+  
+      <div class="services">
+        <div class="service-box">
+          <h3>Services Available</h3>
+          <p>
+            We offer a complete range of international and domestic shipping
+            services designed for individuals, small businesses, and large
+            enterprises.
+          </p>
+        </div>
+  
+        <div class="service-box">
+          <h3>Next Possible Business Day</h3>
+          <p>
+            Time-critical shipments are delivered by the next possible business
+            day, ensuring your documents and parcels arrive quickly and safely.
+          </p>
+        </div>
+  
+        <div class="service-box">
+          <h3>Flexible Import / Export Options</h3>
+          <p>
+            Our flexible import and export solutions make international shipping
+            easy, with full customs support and door-to-door delivery.
+          </p>
+        </div>
+  
+        <div class="service-box">
+          <h3>Tailored Business Solutions</h3>
+          <p>
+            We create customized logistics solutions to fit your business needs,
+            helping you scale efficiently and serve your customers better.
+          </p>
+        </div>
+  
+        <div class="service-box">
+          <h3>Wide Variety of Optional Services</h3>
+          <p>
+            Choose from insurance coverage, real-time tracking, signature on
+            delivery, temperature control, and more to enhance your shipment.
+          </p>
+        </div>
+      </div>
+  
+    
+  
+    </div>
+  </section>
+  <section class="shipping-section">
+    <div class="shipping-container">
+  
+      <h1>Cargo Shipping</h1>
+      <p class="subtitle">Business Only</p>
+  
+      <p class="intro">
+        Discover shipping and logistics service options from DHL Global Forwarding.
+        We support businesses with reliable, scalable cargo solutions across air,
+        road, ocean, and rail networks worldwide.
+      </p>
+  
+      <div class="services">
+        <div class="service-box">
+          <h3>Services Available</h3>
+          <p>
+            Our cargo services are designed for businesses that require efficient,
+            secure, and cost-effective transportation of large or bulk shipments.
+          </p>
+        </div>
+  
+        <div class="service-box">
+          <h3>Air Freight</h3>
+          <p>
+            Fast and time-definite air freight solutions for urgent and high-value
+            cargo, with global airport-to-airport coverage.
+          </p>
+        </div>
+  
+        <div class="service-box">
+          <h3>Road Freight</h3>
+          <p>
+            Reliable road freight services offering flexible routing, scheduled
+            departures, and door-to-door delivery across regions.
+          </p>
+        </div>
+  
+        <div class="service-box">
+          <h3>Ocean Freight</h3>
+          <p>
+            Cost-efficient ocean freight options for large-volume shipments,
+            including full container load (FCL) and less-than-container load (LCL).
+          </p>
+        </div>
+  
+        <div class="service-box">
+          <h3>Rail Freight</h3>
+          <p>
+            Sustainable and efficient rail freight solutions connecting major
+            trade corridors with consistent transit times.
+          </p>
+        </div>
+      </div>
+  
+    
+  
+    </div>
+  </section>
+  
+
+  <section class="section">
+    <h2>About Us</h2>
+    <p>
+      Fast Express Delivery provides quick, secure, and affordable logistics
+      solutions for individuals and businesses. We deliver parcels, documents,
+      and bulk shipments with speed and care.
+    </p>
+  </section>
+  
+  <section class="section gray">
+    <h2>Corporate Clients</h2>
+    <ul class="list">
+      <li>E-commerce Businesses</li>
+      <li>Retail Stores</li>
+      <li>Manufacturing Companies</li>
+      <li>Financial Institutions</li>
+    </ul>
+  </section>
+  
+  <section class="section">
+    <h2>Pricing</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Basic</h3>
+        <p>Local deliveries</p>
+        <strong>$5 / delivery</strong>
+      </div>
+      <div class="card">
+        <h3>Standard</h3>
+        <p>Intercity deliveries</p>
+        <strong>$10 / delivery</strong>
+      </div>
+      <div class="card">
+        <h3>Premium</h3>
+        <p>Same-day express</p>
+        <strong>$20 / delivery</strong>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  <section class="section">
+    <h2>Areas Covered</h2>
+    <p>
+      We currently operate in major cities and regions, with nationwide
+      expansion ongoing.
+    </p>
+    <ul class="list">
+      <li>Nigeria</li>
+      <li>Ghana</li>
+      <li>Kenya</li>
+      <li>South Africa</li>
+      <li>United Kingdom</li>
+      <li>United States</li>
+      <li>Canada</li>
+      <li>Worldwide Coverage</li>
+    </ul>
+    
   </section>
   
   <!-- Firebase SDK -->
