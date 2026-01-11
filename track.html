@@ -209,99 +209,9 @@
   to { transform: rotateY(360deg); }
 }
 
-/* WISH CARD */
-.wish-card {
-  position: absolute;
-  width: 220px;
-  height: 200px;
-  background: rgba(255, 255, 255, 0.18);
-  padding: 20px;
-  border-radius: 18px;
-  backdrop-filter: blur(6px);
-  transform-style: preserve-3d;
 
-  /* FACE EACH OTHER */
-  transform:
-    rotateY(calc(var(--i) * 90deg))
-    translateZ(260px);
 
-  transition: transform 0.6s ease, box-shadow 0.4s ease;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.3);
-}
 
-/* TEXT */
-.wish-card h3 {
-  margin-bottom: 8px;
-  font-size: 18px;
-  color: #ffe600;
-}
-
-.wish-card p {
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-/* HOVER EFFECT */
-.wish-rotate:hover {
-  animation-play-state: paused;
-}
-
-.wish-card:hover {
-  transform:
-    rotateY(calc(var(--i) * 90deg))
-    translateZ(280px)
-    scale(1.05);
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-  .wishes-3d {
-    height: 260px;
-  }
-
-  .wish-rotate {
-    width: 200px;
-    height: 200px;
-  }
-
-  .wish-card {
-    width: 180px;
-    height: 180px;
-    transform:
-      rotateY(calc(var(--i) * 90deg))
-      translateZ(220px);
-  }
-}
-
-/* ❄️ SNOWFALL EFFECT */
-.snow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background-image:
-    radial-gradient(4px 4px at 20px 30px, white, transparent),
-    radial-gradient(3px 3px at 40px 70px, white, transparent),
-    radial-gradient(2px 2px at 90px 40px, white, transparent),
-    radial-gradient(3px 3px at 130px 80px, white, transparent),
-    radial-gradient(2px 2px at 160px 120px, white, transparent);
-  background-size: 200px 200px;
-  animation: snowfall 5s linear infinite;
-  opacity: 1;
-  z-index: 9999;
-}
-
-/* Snow movement */
-@keyframes snowfall {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 0 600px;
-  }
-}
 /* TRANSLATE */
 .tor {
       position: fixed;
@@ -318,6 +228,82 @@
       .hero h1 { font-size: 34px; }
       .tracking input { width: 100%; margin-bottom: 12px; }
     }
+    .faq-section {
+  background: #f5f5f5;
+  padding: 60px 20px;
+}
+
+.faq-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.faq-container h2 {
+  text-align: center;
+  color: darkred;
+  margin-bottom: 40px;
+  font-size: 28px;
+}
+
+/* HIDE CHECKBOX */
+.faq-item input {
+  display: none;
+}
+
+/* QUESTION */
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background: rgb(148, 2, 2);
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  transition: background 0.3s ease;
+  color: white;
+}
+
+.faq-question:hover {
+  background: #ffe6e6;
+  color: #1a1a1a;
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+/* ANSWER */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  background: #fff;
+  padding: 0 20px;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0 0 8px 8px;
+  margin-bottom: 10px;
+}
+
+.faq-answer p {
+  padding: 15px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+/* TOGGLE ANSWER ON CHECK */
+.faq-item input:checked ~ .faq-answer {
+  max-height: 500px; /* enough to show content */
+}
+
+/* ROTATE ARROW */
+.faq-item input:checked + .faq-question .arrow {
+  transform: rotate(180deg);
+}
 
   </style>
   
@@ -350,38 +336,70 @@
   
   </div>
 </div>
-<div class="christmas-wishes">
-    <h2> Christmas Wishes from Fast Express Delivery</h2>
-  
-    <div class="wishes-3d">
-      <div class="wish-rotate">
-  
-        <div class="wish-card" style="--i:0">
-          <h3>Merry Christmas</h3>
-          <p>Wishing you peace, joy, and love this festive season.</p>
-        </div>
-  
-        <div class="wish-card" style="--i:1">
-          <h3>Thank You</h3>
-          <p>Thank you for trusting Fast Express Delivery Service.</p>
-        </div>
-  
-        <div class="wish-card" style="--i:2">
-          <h3>Reliable Service</h3>
-          <p>We remain committed to safe and timely deliveries.</p>
-        </div>
-  
-        <div class="wish-card" style="--i:3">
-          <h3>Happy New Year</h3>
-          <p>May the coming year bring success and happiness.</p>
-        </div>
-  
+<section class="faq-section">
+  <div class="faq-container">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <input type="checkbox" id="faq1">
+      <label for="faq1" class="faq-question">
+        What Is a Tracking Number & Where Can I Find It?
+        <span class="arrow">&#9662;</span>
+      </label>
+      <div class="faq-answer">
+        <p>
+          A tracking number is usually sent to your email once your package has been submitted and verified.
+          It allows you to monitor the status of your shipment. You can also find it in your account
+          on the shipping website or app.
+        </p>
       </div>
     </div>
+
+    <div class="faq-item">
+      <input type="checkbox" id="faq2">
+      <label for="faq2" class="faq-question">
+        When will my tracking information appear?
+        <span class="arrow">&#9662;</span>
+      </label>
+      <div class="faq-answer">
+        <p>
+          Your tracking information will appear once you input your tracking code correctly.
+          Usually, it takes a few hours after submission for the shipment details to update in the system.
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <input type="checkbox" id="faq3">
+      <label for="faq3" class="faq-question">
+        Why is my tracking number/ID not working?
+        <span class="arrow">&#9662;</span>
+      </label>
+      <div class="faq-answer">
+        <p>
+          Make sure you input your tracking code exactly as provided, including all letters, numbers, and symbols.
+          If your tracking ID is still not working, please contact your shipper or the online shop where you made your order.
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <input type="checkbox" id="faq4">
+      <label for="faq4" class="faq-question">
+        If I do not have my tracking number, is it still possible to track my shipment?
+        <span class="arrow">&#9662;</span>
+      </label>
+      <div class="faq-answer">
+        <p>
+          If you do not have a tracking number, we advise you to contact your shipper directly. 
+          They can provide you with the tracking code or update you on your shipment status.
+        </p>
+      </div>
+    </div>
+
   </div>
-  
-  </section>
-  
+</section>
+
 <footer>
     <p>© 2025 Fast Express Delivery Service. Speed You Can Trust.</p>
 </footer>
@@ -432,7 +450,7 @@
         <p><strong>Current Location:</strong> ${d.location}</p>
         <p><strong>Country:</strong> ${d.country}</p>
         <p><strong>Weight:</strong> ${d.weight} kg</p>
-        <p><strong>Delivery Fee and Clearance fee:</strong> $${d.fee}</p>
+        <p><strong>Delivery Fee and Cleareancers fee:</strong> $${d.fee}</p>
       </div>
     `;
 
@@ -459,5 +477,4 @@ L.marker([14.3194, -87.6840]).addTo(map)
   </script>
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
-
 </html>
