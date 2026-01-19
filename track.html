@@ -35,27 +35,106 @@
       to { opacity: 1; }
     }
   
-    /* HEADER */
-    header {
-      background: var(--primary);
-      color: white;
-      padding: 16px 8%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 700;
-    }
+/* HEADER */
+header {
+  background: linear-gradient(to right, rgb(173, 0, 0) 30%, rgb(95, 0, 0) 60%);
+
+  color: #fff;
+  padding: 16px 8%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   
-    header nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
-      font-weight: 500;
-    }
+}
+
+/* LOGO */
+.site-logo {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* HAMBURGER BUTTON */
+/* HAMBURGER BUTTON */
+.hamburger-btn {
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--menu-color);
+  padding: 8px 12px;
+  border: 2px solid var(--menu-color);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.hamburger-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+/* SIDE NAV — hidden by default */
+.side-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 100%;
+  background: linear-gradient(
+    rgb(158, 0, 0),
+    rgba(0, 0, 0, 0.85)
+  );
+  display: flex;
+  flex-direction: column;
+  padding: 80px 20px;
+  gap: 20px;
+  z-index: 2000;
+
+  /* THIS hides it completely */
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+.side-nav.open {
+  transform: translateX(0);
+}
+
+.side-nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 10px;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: -2px 0 10px rgb(255, 255, 255);
+}
+
+.side-nav a:hover {
   
-    header nav a:hover {
-      color: #ffee00;
-    }
+  color: gold;
+}
+
+/* ACTIVE STATE */
+.side-nav.open {
+  right: 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .side-nav {
+    width: 200px;
+    padding: 50px 15px;
+  }
+
+  .hamburger-btn {
+    font-size: 26px;
+  }
+}
+
+
   
     /* LAYOUT */
     .container {
@@ -308,18 +387,43 @@
   </style>
   
 </head>
+<header>
+  <div class="site-logo">Fast Express Delivery</div>
+  <div class="hamburger-btn" id="menuToggle">☰</div>
+</header>
+
+<nav class="side-nav" id="menu">
+  <a href="index.html">Home</a>
+  <a href="track.html">Track Package</a>
+  <a href="sender.html">Customer care</a>
+</nav>
+
+<script>
+  const menuToggle = document.getElementById("menuToggle");
+  const menu = document.getElementById("menu");
+
+  menuToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    menu.classList.toggle("open");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+      menu.classList.remove("open");
+    }
+  });
+
+  document.querySelectorAll(".side-nav a").forEach(link => {
+    link.addEventListener("click", () => {
+      menu.classList.remove("open");
+    });
+  });
+</script>
+
 
 <body>
-    <div class="snow"></div>
-
-<header>
-    <div class="logo">Fast Express Delivery</div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="track.html">Track Package</a>
-    <a href="sender.html">Customer care</a>
-  </nav>
-</header>
+ 
+  
 
 <div class="container">
   <div class="card">
