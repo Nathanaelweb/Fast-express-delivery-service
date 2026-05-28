@@ -395,8 +395,15 @@ header {
 <nav class="side-nav" id="menu">
   <a href="index.html">Home</a>
   <a href="track.html">Track Package</a>
-  <a href="sender.html">Customer care</a>
+  <a href="#" onclick="openChat()">Customer Care</a>
 </nav>
+<script>
+  function openChat() {
+      if (typeof smartsupp !== "undefined") {
+          smartsupp('chat:open');
+      }
+  }
+  </script>
 
 <script>
   const menuToggle = document.getElementById("menuToggle");
