@@ -540,77 +540,98 @@ header {
     <p>© 2025 Fast Express Delivery Service. Speed You Can Trust.</p>
 </footer>
 
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
   const firebaseConfig = {
-    apiKey: "AIzaSyDsadz8GfNMOGaoHbzi7vB2LyvGb-ESxqs",
+    apiKey: "YOUR_API_KEY",
     authDomain: "musicdatabase-c57f8.firebaseapp.com",
     databaseURL: "https://musicdatabase-c57f8-default-rtdb.firebaseio.com",
-    projectId: "musicdatabase-c57f8"
+    projectId: "musicdatabase-c57f8",
+    storageBucket: "musicdatabase-c57f8.firebasestorage.app",
+    messagingSenderId: "1081533752772",
+    appId: "1:1081533752772:web:4e43c649e7e0bd7435f091"
   };
 
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
+  let map;
+
   function track() {
-  const code = document.getElementById("code").value.trim();
-  const result = document.getElementById("result");
-  const mapDiv = document.getElementById("map");
-  const support = document.getElementById("support");
+    const code = document.getElementById("code").value.trim();
+    const result = document.getElementById("result");
+    const mapDiv = document.getElementById("map");
+    const support = document.getElementById("support");
 
-  if (!code) {
-    result.innerHTML = "<p style='color:red'>Please enter a tracking code</p>";
-    mapDiv.style.display = "none";
-    support.style.display = "none";
-    return;
-  }
-
-  db.ref("packages/" + code).once("value").then(snapshot => {
-    if (!snapshot.exists()) {
-      result.innerHTML = "<p style='color:red'>Tracking code not found</p>";
+    if (!code) {
+      result.innerHTML = "<p style='color:red'>Please enter a tracking code</p>";
       mapDiv.style.display = "none";
-      support.style.display = "none";
+      if (support) support.style.display = "none";
       return;
     }
 
-    const d = snapshot.val();
+    db.ref("packages/" + code).once("value").then(snapshot => {
 
-    result.innerHTML = `
-      <div class="receipt">
-        <h3>📦 Shipment Details</h3>
-        <h3><strong>Welcome:</strong> ${d.receiver}</h3>
-        <p><strong>Status:</strong> ${d.status}</p>
-        <p><strong>Sender:</strong> ${d.sender}</p>
-        <p><strong>Receiver:</strong> ${d.receiver}</p>
-        <p><strong>Current Location:</strong> ${d.location}</p>
-        <p><strong>Country:</strong> ${d.country}</p>
-        <p><strong>Weight:</strong> ${d.weight} kg</p>
-        <p><strong>Delivery Fee and Cleareancers fee:</strong> $${d.fee}</p>
-      </div>
-    `;
+      if (!snapshot.exists()) {
+        result.innerHTML = "<p style='color:red'>Tracking code not found</p>";
+        mapDiv.style.display = "none";
+        if (support) support.style.display = "none";
+        return;
+      }
 
-    mapBox.style.display = 'block';
-mapBox.innerHTML = '';
+      const d = snapshot.val();
 
-const map = L.map('map').setView([14.3194, -87.6840], 7); // La Paz, Honduras
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+      result.innerHTML = `
+        <div class="receipt">
+          <h3>📦 Shipment Details</h3>
+          <h3><strong>Welcome:</strong> ${d.receiver}</h3>
+          <p><strong>Receiver:</strong> ${d.receiver}</p>
+          <p><strong>Status:</strong> ${d.status}</p>
+          <p><strong>Sender:</strong> ${d.sender}</p>
+          <p><strong>Current Location:</strong> ${d.location}</p>
+          <p><strong>Country:</strong> ${d.country}</p>
+          <p><strong>Weight:</strong> ${d.weight} kg</p>
+          <p><strong>Delivery & Clearance Fee:</strong> $${d.fee}</p>
+        </div>
+      `;
 
-L.marker([14.3194, -87.6840]).addTo(map)
-  .bindPopup(d.location)
-  .openPopup();
+      mapDiv.style.display = "block";
 
+      // Clear old map if exists
+      if (map) {
+        map.remove();
+      }
+
+      // Example coordinates (you can store lat & lng in Firebase later)
+      const lat = d.lat || 37.0902;   // Default USA center
+      const lng = d.lng || -95.7129;
+
+      map = L.map('map').setView([lat, lng], 6);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      L.marker([lat, lng]).addTo(map)
+        .bindPopup(d.location)
+        .openPopup();
+
+      if (support) support.style.display = "block";
+
+    }).catch(error => {
+      result.innerHTML = "<p style='color:red'>Error retrieving data</p>";
+      console.error(error);
     });
   }
-
 </script>
-<div id="google_translate_element" class="tor"></div>
-
-<script>
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-  }
-  </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
-</html>
+</html>  
